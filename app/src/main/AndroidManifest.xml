@@ -17,7 +17,7 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Splashscreen"
             android:exported="true"
             android:noHistory="true">
             <intent-filter>
