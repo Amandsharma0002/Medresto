@@ -28,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText otp;
     Button getOtp;
     Button register;
+    ImageView googleSignIn;
     SharedPreferences sp;
     String verificationCodeBySystem;
     private static boolean otpRequested = false;
@@ -76,9 +77,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        ImageView img = (ImageView) findViewById(R.id.googleRegister);
-        img.setOnClickListener(new View.OnClickListener() {
+        googleSignIn = (ImageView) findViewById(R.id.googleRegister);
+        googleSignIn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                // Method to login by Google.
                 Toast.makeText(RegisterActivity.this, "Clicked...", Toast.LENGTH_SHORT).show();
             }
         });
