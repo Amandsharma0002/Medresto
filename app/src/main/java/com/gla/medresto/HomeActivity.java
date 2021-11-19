@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -24,6 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     Button logoutBtn;
     FirebaseAuth firebaseAuth;
     SharedPreferences sp;
+    ImageView signOutButton;
 
     GoogleSignInClient googleSignInClient;
 
@@ -31,13 +33,13 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        logoutBtn = (Button) findViewById(R.id.logoutBtn);
+        signOutButton = (ImageView) findViewById(R.id.signOutBtn);
         sp = getSharedPreferences("login", MODE_PRIVATE);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         googleSignInClient = GoogleSignIn.getClient(HomeActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (sp.getString("type", "").equals("googleLogin")) {
