@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -56,6 +58,7 @@ public class HomeActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Void> task) {
                             if (task.isSuccessful()) {
+                                new DatabaseManager(getApplicationContext()).flushDatabase();
                                 sp.edit().putBoolean("loggedIn", false).apply();
                                 sp.edit().putString("type", null).apply();
                                 sp.edit().putString("gmail", null).apply();
@@ -82,8 +85,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerview = (RecyclerView) findViewById(R.id.recyclerView);
-        mRecyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         mCreateRem = (FloatingActionButton) findViewById(R.id.create_reminder);                     //Floating action button to change activity
         mCreateRem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,16 +94,23 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        Cursor cursor = new DatabaseManager(getApplicationContext()).readallreminders();                  //Cursor To Load data From the database
-        while (cursor.moveToNext()) {
-            Model model = new Model(cursor.getString(1), cursor.getString(2), cursor.getString(3));
-            dataholder.add(model);
+
+
+
+        // List The medicine Reminders
+        mRecyclerview = (RecyclerView) findViewById(R.id.recyclerView);
+        mRecyclerview.setLayoutManager(new LinearLayoutManager(this));
+        Cursor cursor = new DatabaseManager(this).readAllReminders();                  //Cursor To Load data From the database
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                Model model = new Model(cursor.getString(1), cursor.getString(2), cursor.getString(3));
+                dataholder.add(model);
+            }
         }
-
-        adapter = new MyAdapter(dataholder);
-        mRecyclerview.setAdapter(adapter);                                                          //Binds the adapter with recyclerview
-
+        adapter = new MyAdapter(this, dataholder, mRecyclerview);
+        mRecyclerview.setAdapter(adapter);
     }
+
 
     @Override
     public void onBackPressed() {

@@ -71,8 +71,6 @@ public class ReminderActivity extends AppCompatActivity {
                         processinsert(title, date, time);
                     }
                 }
-
-
             }
         });
     }
@@ -142,7 +140,7 @@ public class ReminderActivity extends AppCompatActivity {
 
 
     private void setAlarm(String text, String date, String time) {
-        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);                   //assigining alaram manager object to set alaram
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);                   //assigning alarm manager object to set alarm
 
         Intent intent = new Intent(getApplicationContext(), AlarmBroadcast.class);
         intent.putExtra("event", text);                                                       //sending data to alarm class to create channel and notification
@@ -155,8 +153,6 @@ public class ReminderActivity extends AppCompatActivity {
         try {
             Date date1 = formatter.parse(dateandtime);
             am.set(AlarmManager.RTC_WAKEUP, date1.getTime(), pendingIntent);
-            Toast.makeText(getApplicationContext(), "Alarm", Toast.LENGTH_SHORT).show();
-
         } catch (ParseException e) {
             e.printStackTrace();
         }

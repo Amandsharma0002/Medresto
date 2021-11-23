@@ -2,7 +2,7 @@ package com.gla.medresto;
 
 //model class is used to set and get the data from database
 
-public class Model {
+public class Model implements Comparable {
     String title, date, time;
 
     public Model() {
@@ -36,5 +36,14 @@ public class Model {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Model model = (Model) o;
+        if (model.getTitle().equals(this.title) && model.getDate().equals(this.date) && model.getTime().equals(this.time)) {
+            return 0;
+        }
+        return 1;
     }
 }
