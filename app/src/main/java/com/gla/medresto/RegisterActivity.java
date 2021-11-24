@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -43,6 +44,9 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     private EditText phoneNumber;
     private EditText otp;
+    EditText guardian;
+    public static String st;
+
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         @Override
@@ -77,6 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
         otp = findViewById(R.id.inputOTP);
         getOtp = findViewById(R.id.getOTPButton);
         register = findViewById(R.id.registerButton);
+        guardian = findViewById(R.id.inputSecoundaryNumber);
 
 
         signInButton = (ImageView) findViewById(R.id.googleRegister);
@@ -113,12 +118,13 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (!otpRequested) {
                     Toast.makeText(RegisterActivity.this, "Please request for OTP first.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String code = otp.getText().toString();
-
+                st = guardian.getText().toString();
                 if (code.isEmpty()) {
                     Toast.makeText(RegisterActivity.this, "Please Enter OTP", Toast.LENGTH_SHORT).show();
                     return;
@@ -147,6 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull @org.jetbrains.annotations.NotNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
+                                    st = guardian.getText().toString();
                                     sp.edit().putBoolean("loggedIn", true).apply();
                                     sp.edit().putString("type", "googleLogin").apply();
                                     sp.edit().putString("gmail", googleSignInAccount.getEmail()).apply();

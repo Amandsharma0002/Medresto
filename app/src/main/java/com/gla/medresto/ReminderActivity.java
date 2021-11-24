@@ -41,6 +41,7 @@ public class ReminderActivity extends AppCompatActivity {
         mSubmitbtn = (Button) findViewById(R.id.btnSbumit);
 
 
+
         mTimebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
