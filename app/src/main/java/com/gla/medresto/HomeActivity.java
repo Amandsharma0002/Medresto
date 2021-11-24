@@ -62,6 +62,7 @@ public class HomeActivity extends AppCompatActivity {
                                 sp.edit().putBoolean("loggedIn", false).apply();
                                 sp.edit().putString("type", null).apply();
                                 sp.edit().putString("gmail", null).apply();
+                                sp.edit().putString("guardianNumber", null).apply();
                                 firebaseAuth.signOut();
                                 Toast.makeText(HomeActivity.this, "Logout Successful", Toast.LENGTH_SHORT).show();
                                 Intent i = new Intent(HomeActivity.this, RegisterActivity.class);
@@ -74,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
                     sp.edit().putBoolean("loggedIn", false).apply();
                     sp.edit().putString("type", null).apply();
                     sp.edit().putString("number", null).apply();
+                    sp.edit().putString("guardianNumber", null).apply();
                     firebaseAuth.signOut();
                     Toast.makeText(HomeActivity.this, "Logout Successful", Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(HomeActivity.this, RegisterActivity.class);

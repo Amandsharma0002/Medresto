@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,7 +31,16 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.karumi.dexter.listener.single.PermissionListener;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -45,7 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText phoneNumber;
     private EditText otp;
     EditText guardian;
-    public static String st;
+    String st;
+    private static boolean permitAllowed = false;
 
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
@@ -74,6 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        runtimePermission();
 
         sp = getSharedPreferences("login", MODE_PRIVATE);
 
@@ -90,6 +102,17 @@ public class RegisterActivity extends AppCompatActivity {
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!permitAllowed) {
+                    Toast.makeText(RegisterActivity.this, "Please Allow asked Permissions.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (guardian.getText().toString().length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "Please Enter Guardian Number first!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (guardian.getText().toString().length() != 10) {
+                    Toast.makeText(RegisterActivity.this, "Invalid Guardian Number, Please Check your Guardian Number.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent i = googleSignInClient.getSignInIntent();
                 startActivityForResult(i, 100);
             }
@@ -118,7 +141,17 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (!permitAllowed) {
+                    Toast.makeText(RegisterActivity.this, "Please Allow asked Permissions.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (guardian.getText().toString().length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "Please Enter Guardian Number first!", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (guardian.getText().toString().length() != 10) {
+                    Toast.makeText(RegisterActivity.this, "Invalid Guardian Number, Please Check your Guardian Number.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (!otpRequested) {
                     Toast.makeText(RegisterActivity.this, "Please request for OTP first.", Toast.LENGTH_SHORT).show();
                     return;
@@ -157,6 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     sp.edit().putBoolean("loggedIn", true).apply();
                                     sp.edit().putString("type", "googleLogin").apply();
                                     sp.edit().putString("gmail", googleSignInAccount.getEmail()).apply();
+                                    sp.edit().putString("guardianNumber", guardian.getText().toString()).apply();
                                     Toast.makeText(RegisterActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                     Intent j = new Intent(RegisterActivity.this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(j);
@@ -204,6 +238,7 @@ public class RegisterActivity extends AppCompatActivity {
                             sp.edit().putBoolean("loggedIn", true).apply();
                             sp.edit().putString("type", "phoneLogin").apply();
                             sp.edit().putString("number", phoneNumber.getText().toString()).apply();
+                            sp.edit().putString("guardianNumber", guardian.getText().toString()).apply();
                             //Perform Your required action here to either let the user sign In or do something required
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -213,6 +248,26 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    public void runtimePermission() {
+        Dexter.withContext(this).withPermission(Manifest.permission.SEND_SMS)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+                        permitAllowed = true;
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+                        Toast.makeText(RegisterActivity.this, "You need to Allow Permission in order to use the app.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+                        permissionToken.continuePermissionRequest();
+                    }
+                }).check();
     }
 
 

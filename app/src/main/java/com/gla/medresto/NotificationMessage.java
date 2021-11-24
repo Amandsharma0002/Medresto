@@ -4,6 +4,7 @@ import static com.gla.medresto.RegisterActivity.*;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -25,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 public class NotificationMessage extends AppCompatActivity {
     TextView textView;
     Button b1;
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,8 @@ public class NotificationMessage extends AppCompatActivity {
         textView = findViewById(R.id.tv_message);
         Bundle bundle = getIntent().getExtras();                                                  //call the data which is passed by another intent
         textView.setText(bundle.getString("message"));
-        String i = st;
+        sp = getSharedPreferences("login", MODE_PRIVATE);
+        String st = sp.getString("guardianNumber", null);
         b1 = findViewById(R.id.flashButton);
 
 
