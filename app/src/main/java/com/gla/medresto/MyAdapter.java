@@ -46,11 +46,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myviewholder> {
     @Override
     public void onBindViewHolder(@NonNull myviewholder holder, int position, @NonNull List<Object> payloads) {
         if (payloads.isEmpty()) {
-        super.onBindViewHolder(holder, position, payloads);
-        }
-        else {
+            super.onBindViewHolder(holder, position, payloads);
+        } else {
             Bundle bundle = (Bundle) payloads.get(0);
-            for (String key: bundle.keySet()) {
+            for (String key : bundle.keySet()) {
                 if (key.equals("title")) {
                     holder.mTitle.setText(bundle.getString("title"));
                 }

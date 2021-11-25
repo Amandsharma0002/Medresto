@@ -19,17 +19,17 @@ public class Splashscreen extends AppCompatActivity {
     Animation topAnim, bottomAnim;
     ImageView imageView;
     TextView app_name;
-    private Handler mHandler = new Handler();
     SharedPreferences sp;
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
-        bottomAnim = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
+        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
+        bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
 
         imageView = findViewById(R.id.imageView2);
         app_name = findViewById(R.id.app_name);
@@ -47,7 +47,7 @@ public class Splashscreen extends AppCompatActivity {
 //            }
 //        },DELAY_TIME);
 
-        sp = getSharedPreferences("login",MODE_PRIVATE);
+        sp = getSharedPreferences("login", MODE_PRIVATE);
 
         mHandler.postDelayed(new Runnable() {
             @Override

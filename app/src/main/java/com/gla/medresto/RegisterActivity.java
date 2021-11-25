@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RegisterActivity extends AppCompatActivity {
     private static boolean otpRequested = false;
+    private static boolean permitAllowed = false;
     Button getOtp;
     Button register;
     SharedPreferences sp;
@@ -52,12 +53,10 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView signInButton;
     GoogleSignInClient googleSignInClient;
     FirebaseAuth firebaseAuth;
-    private EditText phoneNumber;
-    private EditText otp;
     EditText guardian;
     String st;
-    private static boolean permitAllowed = false;
-
+    private EditText phoneNumber;
+    private EditText otp;
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
         @Override

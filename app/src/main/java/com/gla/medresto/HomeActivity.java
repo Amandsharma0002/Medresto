@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -22,7 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.Gson;
+
 
 import org.jetbrains.annotations.NotNull;
 
@@ -95,8 +94,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);                                                              //Starts the new activity to add Reminders
             }
         });
-
-
 
 
         // List The medicine Reminders

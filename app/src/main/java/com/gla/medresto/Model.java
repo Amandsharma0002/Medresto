@@ -1,6 +1,6 @@
 package com.gla.medresto;
 
-//model class is used to set and get the data from database
+//model class is used to hold the data.
 
 public class Model implements Comparable {
     String title, date, time;
