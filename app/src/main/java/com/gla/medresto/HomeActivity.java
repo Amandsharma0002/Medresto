@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -39,6 +40,9 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Model> dataholder = new ArrayList<Model>();                                               //Array list to add reminders and display in recyclerview
     MyAdapter adapter;
 
+    static ImageView noImage;
+    static TextView noText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,9 @@ public class HomeActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         googleSignInClient = GoogleSignIn.getClient(HomeActivity.this, GoogleSignInOptions.DEFAULT_SIGN_IN);
+
+        noImage = findViewById(R.id.noImage);
+        noText = findViewById(R.id.noText);
 
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +113,19 @@ public class HomeActivity extends AppCompatActivity {
                 dataholder.add(model);
             }
         }
+        checkForData(dataholder);
         adapter = new MyAdapter(this, dataholder, mRecyclerview);
         mRecyclerview.setAdapter(adapter);
+    }
+
+    public static void checkForData(ArrayList<Model> data) {
+        if (data.size() != 0) {
+            noText.setVisibility(View.INVISIBLE);
+            noImage.setVisibility(View.INVISIBLE);
+        } else {
+            noText.setVisibility(View.VISIBLE);
+            noImage.setVisibility(View.VISIBLE);
+        }
     }
 
 

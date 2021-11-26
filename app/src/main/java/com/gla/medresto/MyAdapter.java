@@ -101,6 +101,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.myviewholder> {
                         }
                     }
                     updateModels(newModel);
+                    HomeActivity.checkForData(newModel);
                 }
             });
         }
