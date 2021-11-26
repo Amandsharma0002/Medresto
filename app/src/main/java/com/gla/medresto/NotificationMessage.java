@@ -34,7 +34,7 @@ public class NotificationMessage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String number = st;
-                String msg = "Medicine Taken";
+                String msg = bundle.getString("message") + " Taken";
                 try {
                     SmsManager smsManager = SmsManager.getDefault();
                     smsManager.sendTextMessage(number, null, msg, null, null);
